@@ -3,6 +3,7 @@ from minihack import MiniHackNavigation, LevelGenerator
 from nle.nethack import Command, CompassDirection
 from minihack.envs import register
 import gymnasium as gym
+from nle.nethack.nethack import TERMINAL_SHAPE
 
 
 MOVE_AND_KICK_ACTIONS = tuple(
@@ -12,16 +13,21 @@ MOVE_AND_KICK_ACTIONS = tuple(
 
 class MiniGridHack(MiniHackNavigation):
     def __init__(self, *args, **kwargs):
-        # Only ask users to install gym-minigrid if they actually need it
+        # Only ask users to install minigrid if they actually need it
         try:
-            import gym_minigrid  # noqa: F401
+            import minigrid  # noqa: F401
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
                 "To use MiniGrid-based environments, please install"
-                " gym-minigrid: pip3 install gym-minigrid"
+                " minigrid: pip3 install minigrid"
             )
 
-        self.minigrid_env = gym.make(kwargs.pop("env_name"))
+        height, width = TERMINAL_SHAPE
+        height -= 3  # adjust for topline -1 and bottomlines -2
+        width -= 4  # adjust for left -2 and right -2 borders
+        self.minigrid_env = gym.make(
+            kwargs.pop("env_name"), width=width, height=height
+        )
         self.num_mon = kwargs.pop("num_mon", 0)
         self.num_trap = kwargs.pop("num_trap", 0)
         self.door_state = kwargs.pop("door_state", "closed")
@@ -44,10 +50,10 @@ class MiniGridHack(MiniHackNavigation):
         empty_str = True
         env_map = []
 
-        for j in range(env.grid.height):
+        for j in range(env.unwrapped.grid.height):
             str = ""
-            for i in range(env.width):
-                c = env.grid.get(i, j)
+            for i in range(env.unwrapped.width):
+                c = env.unwrapped.grid.get(i, j)
                 if c is None:
                     str += "."
                     continue
@@ -66,7 +72,7 @@ class MiniGridHack(MiniHackNavigation):
                     str += "."
                 elif c.type == "player":
                     str += "."
-            if not empty_str and j < env.grid.height - 1:
+            if not empty_str and j < env.unwrapped.grid.height - 1:
                 if set(str) != {"."}:
                     str = str.replace(".", " ", str.index(self.wall))
                     inv = str[::-1]
@@ -75,7 +81,10 @@ class MiniGridHack(MiniHackNavigation):
             elif empty_str:
                 empty_strs += 1
 
-        start_pos = (int(env.agent_pos[0]), int(env.agent_pos[1]) - empty_strs)
+        start_pos = (
+            int(env.unwrapped.agent_pos[0]),
+            int(env.unwrapped.agent_pos[1]) - empty_strs,
+        )
         env_map = "\n".join(env_map)
 
         return env_map, start_pos, goal_pos, door_pos
@@ -127,10 +136,10 @@ class MiniGridHack(MiniHackNavigation):
         self.minigrid_env.seed(core)
         return super().seed(core, disp, reseed)
 
-    def reset(self, wizkit_items=None):
+    def reset(self, options=dict(wizkit_items=None), **kwargs):
         des_file = self.get_env_desc()
         self.update(des_file)
-        return super().reset(wizkit_items=wizkit_items)
+        return super().reset(options=options, **kwargs)
 
 
 class MiniHackMultiRoomN2(MiniGridHack):
@@ -157,7 +166,7 @@ class MiniHackMultiRoomN6(MiniGridHack):
 
 register(
     id="MiniGrid-MultiRoom-N10-v0",
-    entry_point="gym_minigrid.envs:MultiRoomEnv",
+    entry_point="minigrid.envs:MultiRoomEnv",
     kwargs={"minNumRooms": 10, "maxNumRooms": 10},
 )
 
@@ -463,12 +472,12 @@ register(
 # MiniGrid: LavaCrossing
 register(
     id="MiniGrid-LavaCrossingS19N13-v0",
-    entry_point="gym_minigrid.envs:CrossingEnv",
+    entry_point="minigrid.envs:CrossingEnv",
     kwargs={"size": 19, "num_crossings": 13},
 )
 register(
     id="MiniGrid-LavaCrossingS19N17-v0",
-    entry_point="gym_minigrid.envs:CrossingEnv",
+    entry_point="minigrid.envs:CrossingEnv",
     kwargs={"size": 19, "num_crossings": 17},
 )
 

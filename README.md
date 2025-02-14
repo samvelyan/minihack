@@ -188,7 +188,7 @@ If you use MiniHack in your work, please cite:
 }
 ```
 
-If you use our example ported environments, please cite the original papers: [MiniGrid](https://github.com/maximecb/gym-minigrid/) (see [license](https://github.com/maximecb/gym-minigrid/blob/master/LICENSE), [bib](https://github.com/maximecb/gym-minigrid/#minimalistic-gridworld-environment-minigrid)), [Boxoban](https://github.com/deepmind/boxoban-levels/) (see [license](https://github.com/deepmind/boxoban-levels/blob/master/LICENSE), [bib](https://github.com/deepmind/boxoban-levels/#bibtex)).
+If you use our example ported environments, please cite the original papers: [MiniGrid](https://github.com/Farama-Foundation/Minigrid) (see [license](https://github.com/Farama-Foundation/Minigrid/LICENSE), [bib](https://github.com/maximecb/gym-minigrid/#minimalistic-gridworld-environment-minigrid)), [Boxoban](https://github.com/deepmind/boxoban-levels/) (see [license](https://github.com/deepmind/boxoban-levels/blob/master/LICENSE), [bib](https://github.com/deepmind/boxoban-levels/#bibtex)).
 
 # Contributions and Maintenance
 

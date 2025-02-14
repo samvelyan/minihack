@@ -1,6 +1,6 @@
 # MiniGrid
 
-This family of environments is ported to MiniHack from [MiniGrid](https://github.com/maximecb/gym-minigrid), a popular suite of procedurally generated grid-based environments that assess various capabilities of RL agents, such as exploration, memory, and generalisation. For more information, check out [MiniGrid's documentation](https://github.com/maximecb/gym-minigrid/blob/master/README.md).
+This family of environments is ported to MiniHack from [MiniGrid](https://github.com/Farama-Foundation/Minigrid), a popular suite of procedurally generated grid-based environments that assess various capabilities of RL agents, such as exploration, memory, and generalisation. For more information, check out [MiniGrid's documentation](https://minigrid.farama.org/index.html).
 After porting environments to MiniHack, one can make them substantially harder by adding additional environment dynamics to the task, such as monsters, dungeon features and objects.
 
 The MultiRoom environments have a series of connected rooms. The final room has the goal location the agent needs to get to. We have ported the `MultiRoom` in three different room numbers, namely 2, 4 and 6 rooms. Moreover, we added additional complexity to them by adding monsters (e.g. `MiniHack-MultiRoom-N4-Monster-v0`), locked doors (e.g. `MiniHack-MultiRoom-N4-Locked-v0`), lava tiles instead of walls (e.g. `MiniHack-MultiRoom-N4-Lava-v0`), or all at one (e.g. `MiniHack-MultiRoom-N4-Extreme-v0`).
