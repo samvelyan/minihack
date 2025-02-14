@@ -56,3 +56,9 @@ TRAP:"pit",(20,10)
 TRAP:"pit",(21,10)
 TRAP:"pit",(22,10)
 TRAP:"pit",(23,10)
+
+# Random objects
+OBJECT:'%',random
+OBJECT:'%',random
+OBJECT:'%',random
+OBJECT:'%',random

@@ -78,3 +78,9 @@ DOOR:closed,(23,12)
 DOOR:closed,(17,10)
 DOOR:closed,(17,12)
 DOOR:closed,(17,14)
+
+# Random objects
+OBJECT:'%',random
+OBJECT:'%',random
+OBJECT:'%',random
+OBJECT:'%',random

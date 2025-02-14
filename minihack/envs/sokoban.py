@@ -8,8 +8,8 @@ from nle import nethack
 MOVE_ACTIONS = tuple(nethack.CompassDirection)
 NAVIGATE_ACTIONS = MOVE_ACTIONS + (
     nethack.Command.OPEN,
-    nethack.Command.KICK,
-    nethack.Command.SEARCH,
+    nethack.Command.EAT,
+    nethack.Command.PICKUP,
 )
 
 
@@ -18,16 +18,16 @@ class Sokoban(MiniHackNavigation):
         kwargs["max_episode_steps"] = kwargs.pop("max_episode_steps", 2000)
         kwargs["actions"] = kwargs.pop("actions", NAVIGATE_ACTIONS)
 
-        self._time_penalty = kwargs.pop("penalty_time", 0)
+        self._time_penalty = kwargs.pop("penalty_time", -0.001)
         self._reward_shaping_coefficient = kwargs.pop(
-            "reward_shaping_coefficient", 0
+            "reward_shaping_coefficient", 0.1
         )
 
         super().__init__(*args, **kwargs)
 
-    def step(self, action: int):
-        self._current_pits = self._object_positions(self.last_observation, "^")
-        return super().step(action)
+    @property
+    def current_pits(self):
+        return self._object_positions(self.last_observation, "^")
 
     def _is_episode_end(self, observation):
         result = super()._is_episode_end(observation)
@@ -38,8 +38,8 @@ class Sokoban(MiniHackNavigation):
                 return self.StepStatus.RUNNING
 
         # stepping into a pit should result in death
-        agent_pos = list(self._object_positions(observation, "@"))[0]
-        if any([agent_pos == pos for pos in self._current_pits]):
+        agent_pos = next((pos for pos in self._object_positions(observation, "@")), None)
+        if any([agent_pos == pos for pos in self.current_pits]):
             return self.StepStatus.DEATH
 
         return result
@@ -68,57 +68,41 @@ class Sokoban(MiniHackNavigation):
 
 class MiniHackSokoban1a(Sokoban):
     def __init__(self, *args, **kwargs):
-        kwargs["reward_shaping_coefficient"] = 0.1
-        kwargs["penalty_time"] = -0.001
         super().__init__(*args, des_file="soko1a.des", **kwargs)
 
 
 class MiniHackSokoban1b(Sokoban):
     def __init__(self, *args, **kwargs):
-        kwargs["reward_shaping_coefficient"] = 0.1
-        kwargs["penalty_time"] = -0.001
         super().__init__(*args, des_file="soko1b.des", **kwargs)
 
 
 class MiniHackSokoban2a(Sokoban):
     def __init__(self, *args, **kwargs):
-        kwargs["reward_shaping_coefficient"] = 0.1
-        kwargs["penalty_time"] = -0.001
         super().__init__(*args, des_file="soko2a.des", **kwargs)
 
 
 class MiniHackSokoban2b(Sokoban):
     def __init__(self, *args, **kwargs):
-        kwargs["reward_shaping_coefficient"] = 0.1
-        kwargs["penalty_time"] = -0.001
         super().__init__(*args, des_file="soko2b.des", **kwargs)
 
 
 class MiniHackSokoban3a(Sokoban):
     def __init__(self, *args, **kwargs):
-        kwargs["reward_shaping_coefficient"] = 0.1
-        kwargs["penalty_time"] = -0.001
         super().__init__(*args, des_file="soko3a.des", **kwargs)
 
 
 class MiniHackSokoban3b(Sokoban):
     def __init__(self, *args, **kwargs):
-        kwargs["reward_shaping_coefficient"] = 0.1
-        kwargs["penalty_time"] = -0.001
         super().__init__(*args, des_file="soko3b.des", **kwargs)
 
 
 class MiniHackSokoban4a(Sokoban):
     def __init__(self, *args, **kwargs):
-        kwargs["reward_shaping_coefficient"] = 0.1
-        kwargs["penalty_time"] = -0.001
         super().__init__(*args, des_file="soko4a.des", **kwargs)
 
 
 class MiniHackSokoban4b(Sokoban):
     def __init__(self, *args, **kwargs):
-        kwargs["reward_shaping_coefficient"] = 0.1
-        kwargs["penalty_time"] = -0.001
         super().__init__(*args, des_file="soko4b.des", **kwargs)
 
 
