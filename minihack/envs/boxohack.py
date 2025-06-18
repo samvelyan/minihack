@@ -3,15 +3,12 @@ import os
 import random
 
 import numpy as np
-import pkg_resources
+from importlib_resources import files
 from nle import nethack
 from minihack.envs import register
 from minihack import LevelGenerator, MiniHackNavigation
 
-LEVELS_PATH = os.path.join(
-    pkg_resources.resource_filename("minihack", "dat"),
-    "boxoban-levels-master",
-)
+LEVELS_PATH = files("minihack.dat").joinpath("boxoban-levels-master")
 # The agent can only move towards 4 cardinal directions (instead of default 8)
 MOVE_ACTIONS = tuple(nethack.CompassCardinalDirection)
 

@@ -8,7 +8,7 @@ from functools import lru_cache
 from typing import List
 from urllib.parse import unquote
 
-import pkg_resources
+from importlib_resources import files
 
 try:
     import inflect
@@ -20,7 +20,7 @@ except ImportError as error:  # noqa
     PREPROCESSING_ALLOWED = False
     import_error = error
 
-DATA_DIR_PATH = pkg_resources.resource_filename("nle", "minihack/dat")
+DATA_DIR_PATH = files("nle").joinpath("minihack").joinpath("dat")
 
 EXCEPTIONS = (
     "floor of a room",

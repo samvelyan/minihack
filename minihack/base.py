@@ -5,7 +5,7 @@ import subprocess
 import random
 import gymnasium as gym
 import numpy as np
-import pkg_resources
+from importlib_resources import files
 from typing import Tuple
 
 from nle import _pynethack, nethack
@@ -17,10 +17,7 @@ from minihack.tiles import GlyphMapper
 
 PATH_DAT_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dat")
 LIB_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "lib")
-PATCH_SCRIPT = os.path.join(
-    pkg_resources.resource_filename("minihack", "scripts"),
-    "mh_patch_nhdat.sh",
-)
+PATCH_SCRIPT = files("minihack.scripts").joinpath("mh_patch_nhdat.sh")
 MH_FULL_ACTIONS = list(FULL_ACTIONS)
 try:
     MH_FULL_ACTIONS.remove(nethack.MiscDirection.UP)
@@ -38,7 +35,7 @@ try:
     )
 except AttributeError:
     NLE_EXTRA_V081_ACTIONS = ()
-HACKDIR = pkg_resources.resource_filename("nle", "nethackdir")
+HACKDIR = files("nle").joinpath("nethackdir")
 
 RGB_MAX_VAL = 255
 N_TILE_PIXEL = 16

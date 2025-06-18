@@ -2,9 +2,9 @@
 
 import os
 import zipfile
-import pkg_resources
+from importlib_resources import files
 
-DESTINATION_PATH = pkg_resources.resource_filename("minihack", "dat")
+DESTINATION_PATH = files("minihack.dat")
 BOXOBAN_REPO_URL = (
     "https://github.com/deepmind/boxoban-levels/archive/refs/heads/master.zip"
 )

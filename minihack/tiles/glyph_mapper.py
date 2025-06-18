@@ -3,7 +3,7 @@
 from minihack.tiles import glyph2tile, MAXOTHTILE
 from nle.nethack import MAX_GLYPH
 import numpy as np
-import pkg_resources
+from importlib_resources import files
 import pickle
 import os
 
@@ -19,10 +19,7 @@ class GlyphMapper:
         If it doesn't, call make_tiles.py in win/
         """
 
-        tile_rgb_path = os.path.join(
-            pkg_resources.resource_filename("minihack", "tiles"),
-            "tiles.pkl",
-        )
+        tile_rgb_path = files("minihack.tiles").joinpath("tiles.pkl")
 
         return pickle.load(open(tile_rgb_path, "rb"))
 
